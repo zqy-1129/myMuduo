@@ -108,11 +108,11 @@ void EventLoop::runInLoop(Functor cb)
     }
     else   // 在非当前线程访问cb，唤醒loop所在线程执行cb
     {
-        queueLoop(cb);
+        queueInLoop(cb);
     }
 }
 
-void EventLoop::queueLoop(Functor cb)
+void EventLoop::queueInLoop(Functor cb)
 {
     {
         std::unique_lock<std::mutex> lock(mutex_);

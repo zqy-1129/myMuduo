@@ -30,7 +30,7 @@ public:
     // 在当前loop中执行
     void runInLoop(Functor cb);
     // 把cb放入队列中，唤醒loop所在线程，执行cb
-    void queueLoop(Functor cb);
+    void queueInLoop(Functor cb);
 
     // 用于唤醒loop所在线程，main reactor唤醒sub reactor执行操作
     void wakeup();

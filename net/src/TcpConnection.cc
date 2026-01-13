@@ -89,7 +89,7 @@ void TcpConnection::handleWrite()
                 if (writeCompleteCallback_)
                 {   
                     // 唤醒loop_对一个的thread线程
-                    loop_->queueLoop(std::bind(writeCompleteCallback_, shared_from_this()));
+                    loop_->queueInLoop(std::bind(writeCompleteCallback_, shared_from_this()));
                 }
             }
             if (state_ == kDisconnecting)
@@ -184,7 +184,7 @@ void TcpConnection::sendInLooop(const void* message, size_t len)
             // 一次性发送完成
             if (remaining == 0 && writeCompleteCallback_)
             {   
-                loop_->queueLoop(std::bind(writeCompleteCallback_, shared_from_this()));
+                loop_->queueInLoop(std::bind(writeCompleteCallback_, shared_from_this()));
             }
         }
         else 
@@ -211,7 +211,7 @@ void TcpConnection::sendInLooop(const void* message, size_t len)
             && oldLen < highWaterMark_
             && highWaterMarkCallback_)
         {
-            loop_->queueLoop(std::bind(highWaterMarkCallback_, shared_from_this(), oldLen + remaining));
+            loop_->queueInLoop(std::bind(highWaterMarkCallback_, shared_from_this(), oldLen + remaining));
         }
         outputBuffer_.append((const char*)message + nwrote, remaining);
         if (!channel_->isWriting())
