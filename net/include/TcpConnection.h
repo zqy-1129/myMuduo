@@ -61,6 +61,9 @@ public:
     void send(const std::string &buf);
     void shutdown();
 
+    const InetAddress getLocalAddr() const { return localAddr_; }
+    const InetAddress getPeerAddr() const { return peerAddr_; }
+
 private:
     enum StateE { kDisconnected, kDisconnecting, kConnected, kConnecting };
     void setState(StateE state) { state_ = state; } 

@@ -26,8 +26,9 @@ public:
         server_.start();
     }
 private:
-    EventLoop* loop_;
     TcpServer server_;
+    EventLoop* loop_;
+    
 
     // 连接事件回调
     void onConnection(const TcpConnectionPtr& conn)
@@ -52,7 +53,9 @@ private:
             conn->peerAddress().toIpPort().c_str(),
             receiveTime.toString().c_str());
         conn->send(msg);
-        conn->shutdown();
+        std::cout << msg << std::endl;
+        LOG_INFO("【服务端】收到消息: %s, 已回声返回", msg.c_str());
+        // conn->shutdown();
     }
 };
 
